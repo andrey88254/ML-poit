@@ -27,6 +27,10 @@ dftrain = pd.read_csv('BostonHousing.csv') # данные для трениро�
 print(dftrain.keys())
 
 y_train = dftrain.pop("medv")
+dftrain.pop("chas")
+dftrain.pop("rad")
+dftrain.pop("b")
+dftrain.pop("lstat")
 print(dftrain.keys())
 NAMES=dftrain.keys()
 # print(y_train)
@@ -51,7 +55,7 @@ print(feature_columns)
 train_input_fn = make_input_fn(dftrain, y_train)  # здесь мы вызовем функцию input_function, которая была возвращена нам, чтобы получить объект набора данных, который мы можем передать модели.
 # eval_input_fn = make_input_fn(dfeval, y_eval, num_epochs=1, shuffle=False)
 #
-linear_est = tf.estimator.LinearClassifier(feature_columns=feature_columns)
+linear_est = tf.estimator.LinearRegressor(feature_columns=feature_columns)
 
 print(dftrain.shape)
 print(y_train.shape)
@@ -66,16 +70,16 @@ linear_est.train(train_input_fn)  # тренировка
 # plt.hist(probs, bins=20, edgecolor="black")
 # plt.title("предсказание вероятности")
 #
-# print("coef")
-# model_coef_names=linear_est.get_variable_names()
-# print(model_coef_names)
-# for c_name in model_coef_names:
-#     print(c_name)
-#
-# print()
-# for c_name in model_coef_names:
-#     print(c_name)
-#     print(linear_est.get_variable_value(c_name))
-#     print()
+print("coef")
+model_coef_names=linear_est.get_variable_names()
+print(model_coef_names)
+for c_name in model_coef_names:
+    print(c_name)
+
+print()
+for c_name in model_coef_names:
+    print(c_name)
+    print(linear_est.get_variable_value(c_name))
+    print()
 #
 # plt.show()
